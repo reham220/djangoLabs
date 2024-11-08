@@ -1,0 +1,17 @@
+# تجاهل ملفات النظام في ويندوز
+AppData/
+Cookies/
+Local Settings/
+My Documents/
+Recent/
+Temp/
+ntuser.*
+*.lnk
+*.db
+
+# تجاهل مجلدات البرامج غير المرغوب فيها
+.vscode/
+.eclipse/
+.idlerc/
+.m2/
+.packettracer/
