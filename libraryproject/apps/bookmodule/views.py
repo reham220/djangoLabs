@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Book  
 
 
 
@@ -64,3 +65,16 @@ def __getBooksList():
 def search_results(request):
     books = request.session.pop('filtered_books', [])  # Get and clear the session data
     return render(request, 'bookmodule/bookList.html', {'books': books})
+
+def simple_query(request):
+    mybooks=Book.objects.filter(title__icontains='Continuous') # <- multiple objects
+    return render(request, 'bookmodule/bookList.html', {'books':mybooks})
+
+
+def lookup_query(request):
+    mybooks=books=Book.objects.filter(author__isnull =
+    False).filter(title__icontains='Delivery')[:10]
+    if len(mybooks)>=1:
+        return render(request, 'bookmodule/bookList.html', {'books':mybooks})
+    else:
+        return render(request, 'bookmodule/index.html')

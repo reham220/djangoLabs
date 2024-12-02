@@ -33,6 +33,8 @@ urlpatterns = [
  path('html5/listing', views.listing, name='listing'),
  path('html5/tables', views.tables, name='tables'),
  path('search', views.search, name='search'),
+ path('books/complex/query', views.lookup_query, name='lookup_query'),
+ path('add-book/', views.add_book, name='add_book'),
 
 
 ]
