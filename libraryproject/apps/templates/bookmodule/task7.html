@@ -1,0 +1,6 @@
+<h1>Students Per City</h1>
+<ul>
+    {% for city in city_stats %}
+        <li>{{ city.city }}: {{ city.student_count }} students</li>
+    {% endfor %}
+</ul>

@@ -15,4 +15,9 @@
 {% else %}
     <p>No books found.</p>
 {% endif %}
+
+{% for obj in books %}
+    <p>ID: {{ obj.id }}, Title: {{ obj.title }}</p>
+    <hr>
+{% endfor %}
 {% endblock content %}

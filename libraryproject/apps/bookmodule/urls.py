@@ -17,6 +17,7 @@ Including another URLconf
 #from django.contrib import admin
 from django.urls import path
 from . import views
+#from django.urls import path, include
 
 urlpatterns = [
 # path('', views.index),
@@ -33,8 +34,14 @@ urlpatterns = [
  path('html5/listing', views.listing, name='listing'),
  path('html5/tables', views.tables, name='tables'),
  path('search', views.search, name='search'),
- path('books/complex/query', views.lookup_query, name='lookup_query'),
- path('add-book/', views.add_book, name='add_book'),
-
+ #path('add-book/', views.add_book, name='add_book'),
+ path('simple/query', views.simple_query, name='simple_query'),
+ path('complex/query', views.lookup_query, name='lookup_query'),
+ path('lab8/task1', views.task1_view, name='task1_view'),
+ path('lab8/task2', views.task2_view, name='task2_view'),
+ path('lab8/task3', views.task3_view, name='task3_view'),
+ path('lab8/task4', views.task4_view, name='task4_view'),
+ path('lab8/task5', views.task5_view, name='task5_view'),
+ path('students/city_count', views.city_count_view, name='city_count_view'),
 
 ]

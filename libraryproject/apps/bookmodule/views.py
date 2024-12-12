@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from .models import Book  
+from django.db.models import Q
+from django.db.models import Count, Sum, Avg, Max, Min
+from django.db.models import Count
 
 
 
@@ -67,14 +70,63 @@ def search_results(request):
     return render(request, 'bookmodule/bookList.html', {'books': books})
 
 def simple_query(request):
-    mybooks=Book.objects.filter(title__icontains='Continuous') # <- multiple objects
-    return render(request, 'bookmodule/bookList.html', {'books':mybooks})
+    mybooks = Book.objects.filter(title__icontains='and')
+    return render(request, 'bookmodule/bookList.html', {'books': mybooks})
 
 
 def lookup_query(request):
-    mybooks=books=Book.objects.filter(author__isnull =
-    False).filter(title__icontains='Delivery')[:10]
+    mybooks=books=Book.objects.filter(author__isnull =False).filter(title__icontains='Delivery')[:10]
     if len(mybooks)>=1:
         return render(request, 'bookmodule/bookList.html', {'books':mybooks})
     else:
         return render(request, 'bookmodule/index.html')
+    
+#def add_book(request):
+#    return render(request, 'bookmodule/add_book.html')
+
+
+#Only call this function once!
+def __insertion_db():
+    book1 = Book(title = 'Continuous Delivery', author = 'J.Humble and D. Farley', edition = 2)
+    book1.save()
+    book2 = Book(title = 'Reversing: Secrets of Reverse Engineering', author = 'E. Eilam', edition = 4)
+    book2.save()
+    book3 = Book(title = 'The Hundred-Page Machine Learning Book', author = 'Andriy Burkov', edition = 3)
+    book3.save()
+
+
+
+def task1_view(request):
+    books = Book.objects.filter(Q(price__lte=50))
+    return render(request, 'bookmodule/task1.html', {'books': books})
+
+
+def task2_view(request):
+    books = Book.objects.filter(Q(edition__gt=2) & (Q(title__icontains='qu') | Q(author__icontains='qu')))
+    return render(request, 'bookmodule/task2.html', {'books': books})
+
+
+def task3_view(request):
+    books = Book.objects.filter(~Q(edition__gt=2) & ~(Q(title__icontains='qu') | Q(author__icontains='qu')) )
+    return render(request, 'bookmodule/task3.html', {'books': books})
+
+def task4_view(request):
+    books = Book.objects.order_by('title')
+    return render(request, 'bookmodule/task4.html', {'books': books})
+
+
+def task5_view(request):
+    stats = Book.objects.aggregate(
+        total_books=Count('id'),
+        total_price=Sum('price'),
+        avg_price=Avg('price'),
+        max_price=Max('price'),
+        min_price=Min('price')
+    )
+    return render(request, 'bookmodule/task5.html', {'stats': stats})
+
+
+def city_count_view(request):
+    city_stats = Address.objects.annotate(student_count=Count('student'))
+    return render(request, 'studentmodule/city_count.html', {'city_stats': city_stats})
+
