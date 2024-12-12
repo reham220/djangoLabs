@@ -3,6 +3,8 @@ from .models import Book
 from django.db.models import Q
 from django.db.models import Count, Sum, Avg, Max, Min
 from django.db.models import Count
+from django.shortcuts import redirect
+from .forms import BookForm
 
 
 
@@ -129,4 +131,62 @@ def task5_view(request):
 def city_count_view(request):
     city_stats = Address.objects.annotate(student_count=Count('student'))
     return render(request, 'studentmodule/city_count.html', {'city_stats': city_stats})
+
+
+def list_books(request):
+    books = Book.objects.all()
+    return render(request, 'bookmodule/list_books.html', {'books': books})
+
+
+
+def add_book(request):
+    if request.method == "POST":
+        title = request.POST.get('title')
+        author = request.POST.get('author')
+        price = request.POST.get('price')
+        edition = request.POST.get('edition')
+        Book.objects.create(title=title, author=author, price=price, edition=edition)
+        return redirect('list_books')
+    return render(request, 'bookmodule/add_book.html')
+
+def edit_book(request, id):
+    book = Book.objects.get(id=id)
+    if request.method == "POST":
+        book.title = request.POST.get('title')
+        book.author = request.POST.get('author')
+        book.price = request.POST.get('price')
+        book.edition = request.POST.get('edition')
+        book.save()
+        return redirect('list_books')
+    return render(request, 'bookmodule/edit_book.html', {'book': book})
+
+
+def delete_book(request, id):
+    book = Book.objects.get(id=id)
+    book.delete()
+    return redirect('list_books')
+
+
+
+def add_book_form(request):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_books')
+    else:
+        form = BookForm()
+    return render(request, 'bookmodule/add_book_form.html', {'form': form})
+
+
+def edit_book_form(request, id):
+    book = Book.objects.get(id=id)
+    if request.method == "POST":
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('list_books')
+    else:
+        form = BookForm(instance=book)
+    return render(request, 'bookmodule/edit_book_form.html', {'form': form})
 

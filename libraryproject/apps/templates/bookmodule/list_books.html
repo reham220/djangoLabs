@@ -5,11 +5,12 @@
 {% block title %} List of Books {% endblock title %}
 
 {% block content %}
-    <h1>List of Books</h1>
+{% comment %}
+  <h1>List of Books</h1>
 
     <!-- Book Entries -->
-    <a href="{% url 'books.view_one_book' 1 %}">
-        <h2>Internet & World Wide Web How to Program</h2>
+    <a href="{% url 'books.view_one_book' 1 %}"> 
+        <h2>Internet & World Wide Web How to Program</h2> 
     </a>
     <a href="{% url 'books.view_one_book' 1 %}">
         <img src="{% static 'book1.jpg' %}" alt="Book1 Image" width="200" height="200">
@@ -22,7 +23,21 @@
 
     <h2>Images in Another Folder</h2>
     <img src="{% static 'book3.jpg' %}" alt="Book3 Image" width="200" height="200">
-    <hr>
+    <hr> 
+{% endcomment %}
+
+    <h1>Books List</h1>
+<a href="/books/lab9_part1/addbook">Add New Book</a>
+<ul>
+    {% for book in books %}
+        <li>
+            {{ book.title }} - {{ book.author }}
+            <a href="/books/lab9_part1/editbook/{{ book.id }}">Edit</a>
+            <a href="/books/lab9_part1/deletebook/{{ book.id }}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+
 {% endblock content %}
 
 
