@@ -52,6 +52,15 @@ urlpatterns = [
  path('lab9_part2/addbook', views.add_book, name='add_book_form'),
  path('lab9_part2/editbook/<int:id>', views.edit_book, name='edit_book_form'),
  path('lab9_part2/deletebook/<int:id>', views.delete_book, name='delete_book_form'),
+ path('', views.list_students, name='list_students'),
+ path('add/', views.add_student, name='add_student'),
+path('update/<int:pk>/', views.update_student, name='update_student'),
+path('delete/<int:pk>/', views.delete_student, name='delete_student'),
 
 
-]
+path('upload/', views.upload_image, name='upload_image'),
+    path('images/', views.list_images, name='list_images'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+

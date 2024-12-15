@@ -1,0 +1,32 @@
+{% extends 'mybook/base.html' %}
+
+{% block title %}WELCOME{% endblock %}
+<head><style>
+    a {
+        color: green; /* Unvisited link color */
+        text-decoration: none; /* Removes the underline */
+    }
+
+    a:visited {
+        color: red; /* Visited link color */
+    }
+
+    a:hover {
+        color: blue; /* Link color on hover */
+        text-decoration: underline; /* Adds an underline on hover */
+    }
+
+    a:active {
+        color: orange; /* Link color when clicked */
+    }
+</style>
+</head>
+{% block content %}
+
+<h4>welcome to our page {{name}}</h4>
+<p>press the below if you want to explore more</p>
+<a href="/books/">Book List</a>
+<br>
+<p>OR press the below if you want to go back to <b>home</b> page</p>
+<a href="../../">Book List</a>
+{% endblock %}

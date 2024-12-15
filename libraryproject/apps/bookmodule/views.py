@@ -5,6 +5,9 @@ from django.db.models import Count, Sum, Avg, Max, Min
 from django.db.models import Count
 from django.shortcuts import redirect
 from .forms import BookForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Student, Address
+from .forms import StudentForm, AddressForm
 
 
 
@@ -189,4 +192,58 @@ def edit_book_form(request, id):
     else:
         form = BookForm(instance=book)
     return render(request, 'bookmodule/edit_book_form.html', {'form': form})
+
+
+
+
+
+
+def list_students(request):
+    students = Student.objects.all()
+    return render(request, 'list_students.html', {'students': students})
+
+def add_student(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_students')
+    else:
+        form = StudentForm()
+    return render(request, 'add_student.html', {'form': form})
+
+def update_student(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('list_students')
+    else:
+        form = StudentForm(instance=student)
+    return render(request, 'update_student.html', {'form': form})
+
+def delete_student(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    if request.method == 'POST':
+        student.delete()
+        return redirect('list_students')
+    return render(request, 'delete_student.html', {'student': student})
+
+
+
+def upload_image(request):
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('list_images')
+    else:
+        form = ImageForm()
+    return render(request, 'upload_image.html', {'form': form})
+
+def list_images(request):
+    images = ImageModel.objects.all()
+    return render(request, 'list_images.html', {'images': images})
+
 
